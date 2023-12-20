@@ -16,8 +16,8 @@ async def createUser(data:User):
         return await UserManager.createUser(data)
 
 @router.post("/login")
-async def createUser(form_data: Annotated[OAuth2PasswordRequestForm, Depends(User)]):   
-        return await UserManager.authUser(form_data) 
+async def createUser(data: User):   
+        return await UserManager.authUser(data) 
 
 @router.get("/me")
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
