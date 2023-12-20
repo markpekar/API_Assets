@@ -7,3 +7,4 @@ class User(BaseModel):
 class TokenSchema(BaseModel):
     token: str
     
+

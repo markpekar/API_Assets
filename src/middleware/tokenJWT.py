@@ -1,21 +1,21 @@
 import datetime
 from bson import ObjectId
 from jose import ExpiredSignatureError, JWTError, jwt
-from fastapi.security import OAuth2PasswordBearer
 from datetime import datetime, timedelta
 from ..auth.database import *
 from fastapi.responses import JSONResponse
+from decouple import config
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+tokenKey = config("SECRET")
 
 def generateJWT(userId):
     expire = datetime.utcnow() + timedelta(days=5)
     tokenData = {"userId":userId, "exp":expire}
-    return jwt.encode(tokenData,"secret", algorithm='HS256')
+    return jwt.encode(tokenData,tokenKey, algorithm='HS256')
 
 def validateJWT(token):
     try:
-        payload = jwt.decode(token, "secret", algorithms='HS256')
+        payload = jwt.decode(token, tokenKey, algorithms='HS256')
         userId = payload.get("userId")
         
         res = usersDB.find({"_id":ObjectId(userId)})

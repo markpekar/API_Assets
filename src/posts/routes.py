@@ -9,7 +9,7 @@ from .schemas import Post
 router = APIRouter(
     prefix="/posts",
 )
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 @router.get("/get-all")
 async def get_posts(token: Annotated[str, Depends(oauth2_scheme)]):
